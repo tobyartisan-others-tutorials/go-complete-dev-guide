@@ -5,7 +5,6 @@ import "fmt"
 /** shape **/
 type shape interface {
     getArea() float64
-	//printArea()
 }
 
 func printArea(s shape) {
