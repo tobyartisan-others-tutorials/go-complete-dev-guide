@@ -2,16 +2,9 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 )
-
-type logWriter struct{}
-
-func (logWriter) Write(bs []byte) (int, error) {
-	fmt.Println(string(bs))
-	fmt.Println("Just wrote this many bytes:", len(bs))
-	return len(bs), nil
-}
 
 /**
  * Command to execute: `go run main.go myfile.txt`
@@ -23,14 +16,11 @@ func main() {
 	fmt.Println("File name to read:", fileName)
 
 	// Read file
-	contents, err := os.ReadFile(fileName)
-
+	file, err := os.Open(fileName)
 	if err != nil {
 		fmt.Println("Error:", err)
 		os.Exit(1)
 	}
 
-	// Output contents
-	lw := logWriter{}
-	lw.Write(contents)
+	io.Copy(os.Stdout, file)
 }
